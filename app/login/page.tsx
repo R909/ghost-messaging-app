@@ -1,63 +1,108 @@
 import Link from "next/link";
-import { AuthShell } from "../components/auth-shell";
+import { GhostAuthScene } from "../components/ghost-auth-scene";
 
 export default function LoginPage() {
   return (
-    <AuthShell
+    <GhostAuthScene
       title="Welcome Back"
       subtitle="Login to continue your journey"
-      backLink="/register"
+      backHref="/register"
       backLabel="Don't have an account? Register"
-      backdropSrc="/ghost-1.png"
-      pageDirection="left"
-      ghostMotion="down"
+      ghostSrc="/ghost-1.png"
+      slideDirection="left"
     >
-      <form className="space-y-4">
+      <form className="space-y-3">
         <div className="space-y-2">
-          <label className="text-sm text-white/70" htmlFor="login-email">
+          <label
+            htmlFor="login-email"
+            className="text-[11px] uppercase tracking-[0.22em] text-white/45"
+          >
             Email or username
           </label>
-          <input
-            id="login-email"
-            type="text"
-            placeholder="Enter your email or username"
-            className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white outline-none transition placeholder:text-white/30 focus:border-violet-400/40 focus:bg-black/25"
-          />
+          <div className="relative">
+            <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-white/30">
+              <UserIcon />
+            </span>
+            <input
+              id="login-email"
+              type="text"
+              placeholder="Email or username"
+              className="h-10 w-full rounded-lg border border-white/10 bg-[#100c1d] px-10 text-sm text-white outline-none transition placeholder:text-white/30 focus:border-violet-400/40 focus:bg-[#151024]"
+            />
+          </div>
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm text-white/70" htmlFor="login-password">
+          <label
+            htmlFor="login-password"
+            className="text-[11px] uppercase tracking-[0.22em] text-white/45"
+          >
             Password
           </label>
-          <input
-            id="login-password"
-            type="password"
-            placeholder="Enter your password"
-            className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white outline-none transition placeholder:text-white/30 focus:border-violet-400/40 focus:bg-black/25"
-          />
+          <div className="relative">
+            <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-white/30">
+              <LockIcon />
+            </span>
+            <input
+              id="login-password"
+              type="password"
+              placeholder="Password"
+              className="h-10 w-full rounded-lg border border-white/10 bg-[#100c1d] px-10 text-sm text-white outline-none transition placeholder:text-white/30 focus:border-violet-400/40 focus:bg-[#151024]"
+            />
+            <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-white/30">
+              <EyeOffIcon />
+            </span>
+          </div>
         </div>
 
-        <div className="flex items-center justify-between gap-3 text-sm text-white/60">
+        <div className="flex items-center justify-between gap-3 pt-1 text-[11px] text-white/55">
           <label className="flex items-center gap-2">
             <input
               type="checkbox"
-              className="h-4 w-4 rounded border-white/20 bg-black/30 text-violet-500 focus:ring-violet-400"
+              className="h-3.5 w-3.5 rounded border-white/20 bg-transparent text-violet-500 focus:ring-violet-400"
             />
             Remember me
           </label>
-          <Link href="/chats" className="text-violet-200 transition hover:text-violet-100">
-            Forgot password?
+          <Link href="/login" className="text-white/45 transition hover:text-white/75">
+            Forgot Password?
           </Link>
         </div>
 
         <Link
           href="/chats"
-          className="flex w-full items-center justify-center rounded-2xl bg-gradient-to-br from-[#c084fc] via-[#8b5cf6] to-[#6d28d9] px-5 py-3 font-medium text-white shadow-[0_14px_34px_rgba(124,58,237,0.35)] transition hover:brightness-110"
+          className="mt-1 flex h-10 w-full items-center justify-center rounded-lg bg-gradient-to-r from-[#7b3df0] via-[#8d43ff] to-[#c65dff] text-sm font-medium text-white shadow-[0_10px_28px_rgba(136,68,255,0.42)] transition hover:brightness-110"
         >
           Log In
         </Link>
-
       </form>
-    </AuthShell>
+    </GhostAuthScene>
+  );
+}
+
+function UserIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <path d="M12 12a3.9 3.9 0 1 0 0-7.8 3.9 3.9 0 0 0 0 7.8Z" />
+      <path d="M4.5 20c1.4-3 3.8-4.4 7.5-4.4s6.1 1.4 7.5 4.4" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function LockIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <rect x="5.5" y="10.5" width="13" height="8.5" rx="2" />
+      <path d="M8 10.5V8.6a4 4 0 0 1 8 0v1.9" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function EyeOffIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <path d="M3.5 12s2.9-5 8.5-5 8.5 5 8.5 5-2.9 5-8.5 5-8.5-5-8.5-5Z" />
+      <path d="M9.5 12a2.5 2.5 0 1 0 5 0 2.5 2.5 0 0 0-5 0Z" />
+      <path d="M4 4l16 16" strokeLinecap="round" />
+    </svg>
   );
 }

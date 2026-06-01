@@ -126,7 +126,7 @@ export function GhostBackdrop({
         fill
         sizes="100vw"
         className={[
-          "object-contain object-center opacity-[0.22] mix-blend-screen drop-shadow-[0_28px_60px_rgba(0,0,0,0.42)]",
+          "object-cover object-center opacity-[0.22] mix-blend-screen drop-shadow-[0_28px_60px_rgba(0,0,0,0.42)]",
           imageClassName,
         ].join(" ")}
         priority={false}

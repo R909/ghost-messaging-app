@@ -283,7 +283,7 @@ export default function ChatsPage() {
           </button>
         </section>
 
-        <section className="relative z-10 flex flex-1 flex-col overflow-hidden border border-white/10 bg-[radial-gradient(circle_at_top,rgba(115,54,194,0.16),transparent_50%),linear-gradient(180deg,rgba(12,10,19,0.96),rgba(15,12,21,0.98))] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.16),0_20px_80px_rgba(0,0,0,0.28)] backdrop-blur-2xl sm:p-5">
+        <section className="relative z-10 flex flex-1 flex-col overflow-hidden border border-white/10  p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.16),0_20px_80px_rgba(0,0,0,0.28)] backdrop-blur-2xl sm:p-5">
           <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(255,255,255,0.08),transparent_28%),radial-gradient(circle_at_70%_24%,rgba(168,85,247,0.16),transparent_24%),radial-gradient(circle_at_34%_72%,rgba(56,189,248,0.1),transparent_26%)]" />
             <div className="absolute inset-6 rounded-[2rem] border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.015))] shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_0_60px_rgba(168,85,247,0.08)] backdrop-blur-[2px]" />

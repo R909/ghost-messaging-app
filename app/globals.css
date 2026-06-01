@@ -60,6 +60,38 @@ body {
   }
 }
 
+@keyframes cloud-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(18px, -14px, 0) scale(1.05);
+  }
+}
+
+@keyframes panel-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes wave-pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scaleX(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scaleX(1.05);
+  }
+}
+
 @layer utilities {
   .animate-float-slow {
     animation: float-slow 7s ease-in-out infinite;
@@ -71,6 +103,18 @@ body {
 
   .animate-drift {
     animation: drift 11s ease-in-out infinite;
+  }
+
+  .animate-cloud-drift {
+    animation: cloud-drift 14s ease-in-out infinite;
+  }
+
+  .animate-panel-bob {
+    animation: panel-bob 6s ease-in-out infinite;
+  }
+
+  .animate-wave-pulse {
+    animation: wave-pulse 5s ease-in-out infinite;
   }
 }
 
