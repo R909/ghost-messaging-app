@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { ReactNode } from "react";
 
 export type GhostRoute =
@@ -30,10 +31,10 @@ export function HomePage({
 }) {
   return (
     <main className="min-h-screen overflow-hidden bg-[#050309] text-white">
-      <div className="relative isolate flex min-h-screen items-center justify-center px-3 py-4 sm:px-6 lg:px-8">
+      <div className="relative isolate flex min-h-screen w-full">
         <BackgroundGlow />
 
-        <section className="relative z-10 flex w-full flex-col overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 shadow-[0_30px_120px_rgba(0,0,0,0.55)] backdrop-blur-2xl lg:h-[calc(100vh-2rem)] lg:min-h-[780px] lg:flex-row">
+        <section className="relative z-10 flex min-h-screen w-full flex-col overflow-hidden border border-white/10 bg-white/5 shadow-[0_30px_120px_rgba(0,0,0,0.55)] backdrop-blur-2xl lg:flex-row">
           <aside className="relative flex w-full flex-col border-b border-white/10 bg-[#0d0a14]/90 p-4 sm:p-5 lg:w-[270px] lg:border-b-0 lg:border-r">
             <div className="flex items-center gap-3 px-2 pb-5 pt-2">
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#f0d9ff] via-[#c07cff] to-[#7b35ff] text-2xl shadow-[0_0_30px_rgba(170,91,255,0.45)]">
@@ -93,19 +94,44 @@ export function HomePage({
             Your messages are private and end-to-end encrypted.
           </span>
         </div>
-
-        <div className="pointer-events-none absolute right-6 top-1/2 hidden -translate-y-1/2 lg:block">
-          <div className="relative h-[280px] w-[160px]">
-            <div className="absolute inset-x-0 bottom-0 h-[170px] rounded-[50%_50%_28%_28%] bg-[radial-gradient(circle_at_50%_15%,rgba(255,209,255,0.95),rgba(196,111,255,0.82)_56%,rgba(100,33,150,0.15)_100%)] blur-[0.2px] shadow-[0_0_80px_rgba(174,92,255,0.4)]" />
-            <div className="absolute left-1/2 top-[18px] h-[120px] w-[108px] -translate-x-1/2 rounded-[50%_50%_44%_44%] bg-[radial-gradient(circle_at_50%_32%,rgba(255,243,255,1),rgba(226,181,255,0.95)_62%,rgba(121,49,169,0.55)_100%)] shadow-[0_0_80px_rgba(197,128,255,0.65)]">
-              <span className="absolute left-[31px] top-[38px] h-4 w-4 rounded-full bg-[#3a1258]" />
-              <span className="absolute right-[31px] top-[38px] h-4 w-4 rounded-full bg-[#3a1258]" />
-            </div>
-            <div className="absolute left-1/2 top-[126px] h-[90px] w-[130px] -translate-x-1/2 rounded-[42%_42%_44%_44%] [clip-path:polygon(0%_0%,100%_0%,100%_62%,88%_86%,72%_74%,58%_93%,43%_76%,28%_91%,14%_74%,0%_88%)] bg-[radial-gradient(circle_at_50%_30%,rgba(255,227,255,0.92),rgba(196,114,255,0.75)_50%,rgba(111,39,163,0.12)_100%)]" />
-          </div>
-        </div>
       </div>
     </main>
+  );
+}
+
+export function GhostBackdrop({
+  src,
+  alt,
+  className = "",
+  imageClassName = "",
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+  imageClassName?: string;
+}) {
+  return (
+    <div
+      aria-hidden
+      className={[
+        "pointer-events-none absolute inset-0 overflow-hidden",
+        className,
+      ].join(" ")}
+    >
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(168,85,247,0.18),transparent_30%),radial-gradient(circle_at_30%_80%,rgba(34,211,238,0.08),transparent_26%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,4,11,0.2),rgba(6,4,11,0.56))]" />
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        sizes="100vw"
+        className={[
+          "object-contain object-center opacity-[0.22] mix-blend-screen drop-shadow-[0_28px_60px_rgba(0,0,0,0.42)]",
+          imageClassName,
+        ].join(" ")}
+        priority={false}
+      />
+    </div>
   );
 }
 
