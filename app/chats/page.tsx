@@ -157,6 +157,10 @@ export default function ChatsPage() {
   const [threads, setThreads] = useState(initialThreads);
   const [isTyping, setIsTyping] = useState(false);
 
+  // Dynamic 3D Tilt Hook State Parameters
+  const [rotateX, setRotateX] = useState(0);
+  const [rotateY, setRotateY] = useState(0);
+
   const currentConversation =
     conversations.find((item) => item.name === activeConversation) ??
     conversations[0];
@@ -167,6 +171,24 @@ export default function ChatsPage() {
   });
 
   const activeThread = threads[activeConversation] ?? [];
+
+  // Calculates structural interactive perspective angles on live layout cursor trace
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left - width / 2;
+    const mouseY = e.clientY - rect.top - height / 2;
+    
+    // Limits angular range value fields for smooth subtle micro shifts
+    setRotateX(-((mouseY / height) * 4)); 
+    setRotateY((mouseX / width) * 4);
+  };
+
+  const handleMouseLeave = () => {
+    setRotateX(0);
+    setRotateY(0);
+  };
 
   function sendMessage(text: string) {
     const content = text.trim();
@@ -203,7 +225,22 @@ export default function ChatsPage() {
 
   return (
     <HomePage active="chats">
-      <div className="relative flex h-full flex-1 flex-col overflow-hidden bg-[#11101a]/90 lg:flex-row">
+      {/* 3D Global Perspective Root Context Container */}
+      <div 
+        style={{ perspective: "1500px" }}
+        className="relative flex h-full flex-1 flex-col overflow-hidden bg-[#11101a]/90 lg:flex-row"
+      >
+        {/* Style Injector Block for Bubble Pop Animations */}
+        <style dangerouslySetInnerHTML={{__html: `
+          @keyframes bubble3D {
+            0% { transform: scale(0.6) translateY(25px) rotateX(-15deg); opacity: 0; }
+            100% { transform: scale(1) translateY(0) rotateX(0deg); opacity: 1; }
+          }
+          .animate-bubble-3d {
+            animation: bubble3D 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+          }
+        `}} />
+
         <GhostBackdrop
           src="/ghost-1.png"
           alt="Floating ghost behind the chat page"
@@ -217,6 +254,7 @@ export default function ChatsPage() {
           imageClassName="opacity-[0.08] translate-x-1/4 translate-y-10 scale-[1.15] rotate-6 blur-[1px]"
         />
 
+        {/* Left Messaging Sidebar */}
         <section className="relative z-10 flex flex-1 flex-col border-b border-white/10 p-4 sm:p-5 lg:max-w-[350px] lg:border-b-0 lg:border-r">
           <div className="flex items-center justify-between px-1 pb-4">
             <h1 className="text-2xl font-semibold tracking-tight text-white">
@@ -227,7 +265,7 @@ export default function ChatsPage() {
             </SectionHeaderButton>
           </div>
 
-          <label className="mb-3 flex items-center gap-3 rounded-2xl border border-white/8 bg-white/[0.04] px-4 py-3 text-white/45">
+          <label className="mb-3 flex items-center gap-3 rounded-2xl border border-white/8 bg-white/[0.04] px-4 py-3 text-white/45 transition-all duration-300 focus-within:border-violet-500/50 focus-within:shadow-[0_0_15px_rgba(168,85,247,0.15)]">
             <SearchIcon />
             <input
               value={search}
@@ -243,13 +281,13 @@ export default function ChatsPage() {
                 key={item.name}
                 onClick={() => setActiveConversation(item.name)}
                 className={[
-                  "flex w-full items-center gap-3 rounded-[1.35rem] border px-4 py-3 text-left transition duration-200",
+                  "flex w-full items-center gap-3 rounded-[1.35rem] border px-4 py-3 text-left transition-all duration-300 transform active:scale-95",
                   item.name === activeConversation
-                    ? "border-violet-400/40 bg-[linear-gradient(135deg,rgba(126,34,206,0.35),rgba(31,22,46,0.9))] shadow-[0_0_28px_rgba(162,92,255,0.25)]"
-                    : "border-transparent bg-transparent hover:border-white/10 hover:bg-white/[0.03]",
+                    ? "border-violet-400/40 bg-[linear-gradient(135deg,rgba(126,34,206,0.35),rgba(31,22,46,0.9))] shadow-[0_12px_28px_rgba(162,92,255,0.2)] -translate-y-0.5"
+                    : "border-transparent bg-transparent hover:border-white/10 hover:bg-white/[0.03] hover:-translate-y-0.5",
                 ].join(" ")}
               >
-                <div className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/5 ring-1 ring-white/10">
+                <div className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/5 ring-1 ring-white/10 transition-transform duration-300 group-hover:scale-105">
                   <GhostAvatar accent={item.accent} />
                 </div>
                 <div className="min-w-0 flex-1">
@@ -264,7 +302,7 @@ export default function ChatsPage() {
                   <div className="mt-1 flex items-center justify-between gap-3">
                     <p className="truncate text-sm text-white/60">{item.preview}</p>
                     {item.name === activeConversation ? (
-                      <span className="shrink-0 text-[10px] uppercase tracking-[0.24em] text-violet-300">
+                      <span className="shrink-0 text-[10px] uppercase tracking-[0.24em] text-violet-300 animate-pulse">
                         Now
                       </span>
                     ) : null}
@@ -276,14 +314,25 @@ export default function ChatsPage() {
 
           <button
             onClick={() => setActiveConversation("No_Name")}
-            className="mt-3 flex items-center justify-center gap-2 rounded-2xl border border-violet-400/40 bg-transparent px-4 py-3 text-sm text-violet-200 transition hover:bg-violet-500/10"
+            className="mt-3 flex items-center justify-center gap-2 rounded-2xl border border-violet-400/40 bg-transparent px-4 py-3 text-sm text-violet-200 transition-all duration-300 hover:bg-violet-500/10 hover:shadow-[0_0_15px_rgba(168,85,247,0.2)] active:scale-95"
           >
             <PlusIcon />
             New Message
           </button>
         </section>
 
-        <section className="relative z-10 flex flex-1 flex-col overflow-hidden border border-white/10  p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.16),0_20px_80px_rgba(0,0,0,0.28)] backdrop-blur-2xl sm:p-5">
+        {/* Right Chat Thread Frame - Upgraded with Interactive 3D Parallax Tilt */}
+        <section 
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          style={{
+            transform: `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
+            transformStyle: "preserve-3d",
+            transition: "transform 0.15s ease-out, shadow 0.3s ease"
+          }}
+          className="relative z-10 flex flex-1 flex-col overflow-hidden border border-white/10 p-[35px] shadow-[inset_0_1px_0_rgba(255,255,255,0.16),0_30px_90px_rgba(0,0,0,0.45)] backdrop-blur-2xl sm:p-5 m-2 rounded-[2rem]"
+        >
+          {/* Internal ambient glowing depth maps */}
           <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(255,255,255,0.08),transparent_28%),radial-gradient(circle_at_70%_24%,rgba(168,85,247,0.16),transparent_24%),radial-gradient(circle_at_34%_72%,rgba(56,189,248,0.1),transparent_26%)]" />
             <div className="absolute inset-6 rounded-[2rem] border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.015))] shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_0_60px_rgba(168,85,247,0.08)] backdrop-blur-[2px]" />
@@ -294,7 +343,10 @@ export default function ChatsPage() {
             <div className="absolute left-[-4rem] bottom-[8%] h-[20rem] w-[20rem] rounded-full bg-[radial-gradient(circle,rgba(147,51,234,0.16),transparent_68%)] blur-3xl animate-drift" />
           </div>
 
-          <header className="relative z-10 flex items-center justify-between gap-4 rounded-[1.6rem] border border-white/8 bg-white/[0.03] px-4 py-3">
+          <header 
+            style={{ transform: "translateZ(30px)" }}
+            className="relative z-10 flex items-center justify-between gap-4 rounded-[1.6rem] border border-white/8 bg-white/[0.03] px-4 py-3 shadow-md"
+          >
             <div className="flex items-center gap-3">
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/6 ring-1 ring-white/10">
                 <GhostAvatar />
@@ -302,33 +354,28 @@ export default function ChatsPage() {
               <div>
                 <p className="font-medium text-white">{currentConversation.name}</p>
                 <div className="flex items-center gap-2 text-xs text-white/55">
-                  <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(74,222,128,0.8)]" />
+                  <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(74,222,128,0.8)] animate-pulse" />
                   Online
                 </div>
               </div>
             </div>
 
             <div className="flex items-center gap-2">
-              <SectionHeaderButton>
-                <PhoneIcon />
-              </SectionHeaderButton>
-              <SectionHeaderButton>
-                <VideoIcon />
-              </SectionHeaderButton>
-              <SectionHeaderButton>
-                <InfoIcon />
-              </SectionHeaderButton>
+              <SectionHeaderButton><PhoneIcon /></SectionHeaderButton>
+              <SectionHeaderButton><VideoIcon /></SectionHeaderButton>
+              <SectionHeaderButton><InfoIcon /></SectionHeaderButton>
             </div>
           </header>
 
+          {/* Messages Stream Viewport with custom 3D scaling transformations */}
           <div className="relative z-10 flex-1 overflow-y-auto px-1 py-6 sm:px-2">
             <div className="mx-auto mb-6 w-fit rounded-full border border-white/8 bg-white/[0.04] px-3 py-1 text-[11px] text-white/45">
               {currentConversation.preview}
             </div>
 
-            <div className="space-y-8">
+            <div className="space-y-8" style={{ transformStyle: "preserve-3d" }}>
               {activeThread.map((message, index) => (
-                <div key={`${message.time}-${index}-${message.text}`}>
+                <div key={`${message.time}-${index}-${message.text}`} className="animate-bubble-3d">
                   {message.date ? (
                     <div className="mx-auto mb-6 w-fit rounded-full border border-white/8 bg-white/[0.04] px-3 py-1 text-[11px] text-white/45">
                       {message.date}
@@ -348,11 +395,12 @@ export default function ChatsPage() {
                     ) : null}
 
                     <div
+                      style={{ transform: "translateZ(15px)" }}
                       className={[
-                        "max-w-[min(100%,28rem)] rounded-[1.3rem] border px-4 py-3 shadow-[0_12px_40px_rgba(0,0,0,0.22)]",
+                        "max-w-[min(100%,28rem)] rounded-[1.3rem] border px-4 py-3 shadow-[0_12px_40px_rgba(0,0,0,0.22)] transition-all duration-300 hover:shadow-[0_20px_50px_rgba(139,92,246,0.15)]",
                         message.side === "right"
-                          ? "border-violet-300/15 bg-[linear-gradient(180deg,rgba(115,64,188,0.9),rgba(58,39,89,0.98))] text-white"
-                          : "border-white/8 bg-white/[0.06] text-white/88",
+                          ? "border-violet-300/15 bg-[linear-gradient(180deg,rgba(115,64,188,0.9),rgba(58,39,89,0.98))] text-white origin-right"
+                          : "border-white/8 bg-white/[0.06] text-white/88 origin-left",
                       ].join(" ")}
                     >
                       <p className="text-sm leading-6">{message.text}</p>
@@ -365,7 +413,7 @@ export default function ChatsPage() {
                         ].join(" ")}
                       >
                         <span>{message.time}</span>
-                        {message.seen ? <span>✓✓</span> : null}
+                        {message.seen ? <span className="text-violet-400">✓✓</span> : null}
                       </div>
                     </div>
 
@@ -378,37 +426,39 @@ export default function ChatsPage() {
                 </div>
               ))}
 
+              {/* Typing indicator bubble tracking wrapper */}
               {isTyping ? (
-                <div className="flex items-end gap-3">
+                <div className="flex items-end gap-3 animate-bubble-3d">
                   <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/5 ring-1 ring-white/10">
                     <GhostAvatar size="sm" />
                   </div>
                   <div className="rounded-[1.3rem] border border-white/8 bg-white/[0.06] px-4 py-3">
                     <div className="flex items-center gap-1.5">
-                      <span className="h-2 w-2 animate-pulse rounded-full bg-white/50" />
-                      <span className="h-2 w-2 animate-pulse rounded-full bg-white/50 [animation-delay:150ms]" />
-                      <span className="h-2 w-2 animate-pulse rounded-full bg-white/50 [animation-delay:300ms]" />
+                      <span className="h-2 w-2 animate-bounce rounded-full bg-white/50" />
+                      <span className="h-2 w-2 animate-bounce rounded-full bg-white/50 [animation-delay:150ms]" />
+                      <span className="h-2 w-2 animate-bounce rounded-full bg-white/50 [animation-delay:300ms]" />
                     </div>
                   </div>
                 </div>
               ) : null}
 
-              <div className="flex items-end gap-3">
+              {/* Countdown Ghost Timer Module */}
+              <div className="flex items-end gap-3 animate-bubble-3d">
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/5 ring-1 ring-white/10">
                   <GhostAvatar size="sm" />
                 </div>
-                <div className="w-full max-w-[28rem] rounded-[1.3rem] border border-white/8 bg-white/[0.05] p-4 text-white/90 shadow-[0_12px_40px_rgba(0,0,0,0.22)]">
+                <div className="w-full max-w-[28rem] rounded-[1.3rem] border border-white/8 bg-white/[0.05] p-4 text-white/90 shadow-[0_12px_40px_rgba(0,0,0,0.22)] backdrop-blur-md">
                   <div className="flex items-center justify-between gap-4">
                     <p className="text-xs text-white/45">
                       This message will disappear in
                     </p>
-                    <button className="rounded-full border border-white/8 bg-white/5 p-2 text-white/45">
+                    <button className="rounded-full border border-white/8 bg-white/5 p-2 text-white/45 hover:bg-red-500/10 hover:text-red-400 transition-colors duration-200">
                       <TrashIcon />
                     </button>
                   </div>
                   <div className="mt-2 flex items-center gap-4">
-                    <p className="text-3xl font-medium tracking-tight">00:07</p>
-                    <div className="flex h-14 w-14 items-center justify-center rounded-full border border-dashed border-violet-300/30">
+                    <p className="text-3xl font-medium tracking-tight text-violet-200">00:07</p>
+                    <div className="flex h-14 w-14 items-center justify-center rounded-full border border-dashed border-violet-300/30 shadow-[0_0_15px_rgba(168,85,247,0.1)]">
                       <div className="h-9 w-9 animate-spin rounded-full border-2 border-violet-300/35 border-t-violet-200" />
                     </div>
                   </div>
@@ -417,14 +467,17 @@ export default function ChatsPage() {
             </div>
           </div>
 
-          <footer className="relative z-10 rounded-[1.6rem] border border-white/8 bg-white/[0.03] p-3">
+          <footer 
+            style={{ transform: "translateZ(25px)" }}
+            className="relative z-10 rounded-[1.6rem] border border-white/8 bg-white/[0.03] p-3 shadow-lg"
+          >
             <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
-              <div className="flex items-center gap-3 rounded-2xl px-2 py-1 text-sm text-emerald-300">
-                <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 shadow-[0_0_14px_rgba(74,222,128,0.8)]" />
+              <div className="flex items-center gap-3 rounded-2xl px-2 py-1 text-sm text-emerald-300 font-medium">
+                <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 shadow-[0_0_14px_rgba(74,222,128,0.8)] animate-pulse" />
                 Ghost Mode On
               </div>
 
-              <div className="flex flex-1 items-center gap-3 rounded-2xl border border-white/8 bg-black/20 px-4 py-3 text-white/45">
+              <div className="flex flex-1 items-center gap-3 rounded-2xl border border-white/8 bg-black/20 px-4 py-3 text-white/45 focus-within:border-violet-500/40 transition-colors">
                 <input
                   value={draft}
                   onChange={(event) => setDraft(event.target.value)}
@@ -435,19 +488,15 @@ export default function ChatsPage() {
                     }
                   }}
                   placeholder="Write something..."
-                  className="flex-1 bg-transparent text-sm outline-none placeholder:text-white/35"
+                  className="flex-1 bg-transparent text-sm outline-none placeholder:text-white/35 text-white"
                 />
-                <button className="text-white/60">
-                  <PaperclipIcon />
-                </button>
-                <button className="text-white/60">
-                  <MicIcon />
-                </button>
+                <button className="text-white/60 hover:text-violet-400 transition-colors"><PaperclipIcon /></button>
+                <button className="text-white/60 hover:text-violet-400 transition-colors"><MicIcon /></button>
               </div>
 
               <button
                 onClick={() => sendMessage(draft)}
-                className="rounded-2xl bg-gradient-to-br from-[#b06cff] to-[#7d3cff] px-5 py-3 font-medium text-white shadow-[0_12px_30px_rgba(145,82,255,0.35)] transition hover:brightness-110"
+                className="rounded-2xl bg-gradient-to-br from-[#b06cff] to-[#7d3cff] px-5 py-3 font-medium text-white shadow-[0_12px_30px_rgba(145,82,255,0.35)] transition-all duration-300 hover:brightness-110 hover:-translate-y-0.5 active:translate-y-0"
               >
                 Send
               </button>
@@ -462,7 +511,7 @@ export default function ChatsPage() {
                 <button
                   key={reply}
                   onClick={() => sendMessage(reply)}
-                  className="rounded-full border border-white/8 bg-white/[0.03] px-3 py-2 text-xs text-white/70 transition hover:border-violet-400/30 hover:bg-violet-500/10 hover:text-violet-100"
+                  className="rounded-full border border-white/8 bg-white/[0.03] px-3 py-2 text-xs text-white/70 transition-all duration-200 hover:border-violet-400/40 hover:bg-violet-500/10 hover:text-violet-100 hover:-translate-y-0.5"
                 >
                   {reply}
                 </button>
@@ -475,6 +524,7 @@ export default function ChatsPage() {
   );
 }
 
+// Icon Definitions unchanged below for production safety...
 function formatTime(date: Date) {
   return new Intl.DateTimeFormat("en-US", {
     hour: "2-digit",
@@ -485,13 +535,7 @@ function formatTime(date: Date) {
 
 function ComposeIcon() {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      className="h-5 w-5"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-    >
+    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8">
       <path d="M14.5 5.5h4a2 2 0 0 1 2 2v4" strokeLinecap="round" />
       <path d="M10 14l7-7" strokeLinecap="round" />
       <path d="M9 7h-2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-2" strokeLinecap="round" />
@@ -501,13 +545,7 @@ function ComposeIcon() {
 
 function SearchIcon() {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      className="h-4 w-4 shrink-0"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-    >
+    <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="1.8">
       <circle cx="11" cy="11" r="6.5" />
       <path d="M16 16l4 4" strokeLinecap="round" />
     </svg>
@@ -516,13 +554,7 @@ function SearchIcon() {
 
 function PlusIcon() {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      className="h-4 w-4"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-    >
+    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8">
       <path d="M12 5v14M5 12h14" strokeLinecap="round" />
     </svg>
   );
@@ -530,30 +562,15 @@ function PlusIcon() {
 
 function PhoneIcon() {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      className="h-4 w-4"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-    >
-      <path
-        d="M7 4.8c.9-.7 2-.7 2.7.1l1.5 1.8c.6.8.6 1.8-.1 2.5l-1 1c.8 1.6 2.2 3 3.8 3.8l1-1c.7-.7 1.7-.7 2.5-.1l1.8 1.5c.8.7.8 1.8.1 2.7l-1 1.3c-.7.9-1.8 1.3-2.9 1.1-6.3-1.1-11.1-5.9-12.2-12.2-.2-1.1.2-2.2 1.1-2.9L7 4.8Z"
-        strokeLinecap="round"
-      />
+    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <path d="M7 4.8c.9-.7 2-.7 2.7.1l1.5 1.8c.6.8.6 1.8-.1 2.5l-1 1c.8 1.6 2.2 3 3.8 3.8l1-1c.7-.7 1.7-.7 2.5-.1l1.8 1.5c.8.7.8 1.8.1 2.7l-1 1.3c-.7.9-1.8 1.3-2.9 1.1-6.3-1.1-11.1-5.9-12.2-12.2-.2-1.1.2-2.2 1.1-2.9L7 4.8Z" strokeLinecap="round"/>
     </svg>
   );
 }
 
 function VideoIcon() {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      className="h-4 w-4"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-    >
+    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8">
       <rect x="3.5" y="6.5" width="12" height="11" rx="2" />
       <path d="M16 10l4-2v8l-4-2Z" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
@@ -562,13 +579,7 @@ function VideoIcon() {
 
 function InfoIcon() {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      className="h-4 w-4"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-    >
+    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8">
       <circle cx="12" cy="12" r="8.5" />
       <path d="M12 11v5" strokeLinecap="round" />
       <path d="M12 8.2h.01" strokeLinecap="round" />
@@ -578,31 +589,15 @@ function InfoIcon() {
 
 function PaperclipIcon() {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      className="h-4 w-4"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-    >
-      <path
-        d="M13.5 6.5 7.6 12.4a3 3 0 0 0 4.2 4.2l6.4-6.4a4.5 4.5 0 1 0-6.3-6.4L5.3 10.4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <path d="M13.5 6.5 7.6 12.4a3 3 0 0 0 4.2 4.2l6.4-6.4a4.5 4.5 0 1 0-6.3-6.4L5.3 10.4" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
 
 function MicIcon() {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      className="h-4 w-4"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-    >
+    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8">
       <rect x="9" y="4.5" width="6" height="10" rx="3" />
       <path d="M6.5 12a5.5 5.5 0 0 0 11 0" strokeLinecap="round" />
       <path d="M12 17v3.5" strokeLinecap="round" />
@@ -612,13 +607,7 @@ function MicIcon() {
 
 function TrashIcon() {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      className="h-4 w-4"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-    >
+    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8">
       <path d="M9 5.5h6M10 5.5l.4-1.2A1.5 1.5 0 0 1 11.8 3.5h.4a1.5 1.5 0 0 1 1.4.8l.4 1.2" strokeLinecap="round" />
       <path d="M6.5 7h11" strokeLinecap="round" />
       <path d="M8 7l.6 11a1.5 1.5 0 0 0 1.5 1.4h3.8a1.5 1.5 0 0 0 1.5-1.4L16 7" strokeLinecap="round" />

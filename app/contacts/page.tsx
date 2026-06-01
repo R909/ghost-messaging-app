@@ -23,7 +23,7 @@ export default function ContactsPage() {
           className="animate-pulse-soft"
           imageClassName="opacity-[0.11] scale-110"
         />
-        <div className="relative z-10 w-full rounded-[1.8rem] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.025))] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_20px_70px_rgba(0,0,0,0.28)] backdrop-blur-xl">
+        <div className="relative z-10 w-full rounded-[1.8rem] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.025))] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_20px_70px_rgba(0,0,0,0.28)] backdrop-blur-xl animate-slide-up-fade">
           <h1 className="text-3xl font-semibold tracking-tight text-white">
             Contacts
           </h1>
@@ -33,10 +33,11 @@ export default function ContactsPage() {
           </p>
 
           <div className="mt-6 grid gap-4">
-            {contacts.map((contact) => (
+            {contacts.map((contact, index) => (
               <div
                 key={contact.name}
-                className="flex items-center justify-between rounded-[1.4rem] border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.025))] p-4 transition duration-200 hover:border-violet-400/20 hover:bg-[linear-gradient(180deg,rgba(168,85,247,0.1),rgba(255,255,255,0.03))]"
+                style={{ animationDelay: `${index * 90 + 350}ms` }}
+                className="flex items-center justify-between rounded-[1.4rem] border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.025))] p-4 transition duration-200 hover:border-violet-400/20 hover:bg-[linear-gradient(180deg,rgba(168,85,247,0.1),rgba(255,255,255,0.03))] animate-slide-up-fade"
               >
                 <div className="flex items-center gap-4">
                   <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/5 ring-1 ring-white/10">

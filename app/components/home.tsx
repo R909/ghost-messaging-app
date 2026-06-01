@@ -37,7 +37,7 @@ export function HomePage({
         <section className="relative z-10 flex min-h-screen w-full flex-col overflow-hidden border border-white/10 bg-white/5 shadow-[0_30px_120px_rgba(0,0,0,0.55)] backdrop-blur-2xl lg:flex-row">
           <aside className="relative flex w-full flex-col border-b border-white/10 bg-[#0d0a14]/90 p-4 sm:p-5 lg:w-[270px] lg:border-b-0 lg:border-r">
             <div className="flex items-center gap-3 px-2 pb-5 pt-2">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#f0d9ff] via-[#c07cff] to-[#7b35ff] text-2xl shadow-[0_0_30px_rgba(170,91,255,0.45)]">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#f0d9ff] via-[#c07cff] to-[#7b35ff] text-2xl shadow-[0_0_30px_rgba(170,91,255,0.45)] animate-panel-bob">
                 👻
               </div>
               <div>
@@ -49,16 +49,17 @@ export function HomePage({
             </div>
 
             <nav className="mt-1 flex gap-3 overflow-x-auto pb-4 lg:flex-col lg:overflow-visible lg:pb-0">
-              {navigation.map(({ label, href, route, icon: Icon }) => {
+              {navigation.map(({ label, href, route, icon: Icon }, navIndex) => {
                 const isActive = route === active;
                 return (
                   <Link
                     key={label}
                     href={href}
+                    style={{ animationDelay: `${navIndex * 60}ms` }}
                     className={[
-                      "flex min-w-[82px] flex-1 flex-col items-center justify-center gap-2 rounded-2xl border px-3 py-4 text-xs transition duration-200 lg:min-w-0 lg:flex-row lg:justify-start lg:rounded-3xl lg:px-4",
+                      "flex min-w-[82px] flex-1 flex-col items-center justify-center gap-2 rounded-2xl border px-3 py-4 text-xs transition duration-200 lg:min-w-0 lg:flex-row lg:justify-start lg:rounded-3xl lg:px-4 animate-slide-in-left",
                       isActive
-                        ? "border-violet-400/40 bg-violet-500/20 text-[#e7d3ff] shadow-[0_0_30px_rgba(159,86,255,0.18)]"
+                        ? "border-violet-400/40 bg-violet-500/20 text-[#e7d3ff] animate-glow-breathe"
                         : "border-white/8 bg-white/[0.03] text-white/60 hover:border-white/15 hover:bg-white/[0.05]",
                     ].join(" ")}
                   >
@@ -69,7 +70,7 @@ export function HomePage({
               })}
             </nav>
 
-            <div className="mt-auto hidden rounded-[1.5rem] border border-white/8 bg-[linear-gradient(180deg,rgba(147,51,234,0.14),rgba(8,8,16,0.35))] p-4 lg:block">
+            <div className="mt-auto hidden rounded-[1.5rem] border border-white/8 bg-[linear-gradient(180deg,rgba(147,51,234,0.14),rgba(8,8,16,0.35))] p-4 lg:block animate-panel-bob [animation-delay:2s]">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white/10 text-lg">
                   <GhostAvatar size="sm" />
@@ -144,6 +145,14 @@ function BackgroundGlow() {
       <div className="absolute bottom-[-6rem] right-[18%] h-[24rem] w-[24rem] rounded-full bg-[radial-gradient(circle,rgba(120,44,210,0.16),transparent_68%)] blur-3xl" />
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,4,11,0.68),rgba(6,4,11,0.92))]" />
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:90px_90px] opacity-[0.35]" />
+      {/* Twinkling star particles */}
+      <div className="absolute left-[22%] top-[36%] h-1.5 w-1.5 rounded-full bg-violet-300/55 blur-[0.5px] animate-particle-twinkle" />
+      <div className="absolute left-[55%] top-[20%] h-1 w-1 rounded-full bg-violet-200/45 blur-[0.5px] animate-particle-twinkle [animation-delay:1.2s]" />
+      <div className="absolute left-[76%] top-[55%] h-1.5 w-1.5 rounded-full bg-violet-400/40 blur-[0.5px] animate-particle-twinkle [animation-delay:0.6s]" />
+      <div className="absolute left-[38%] top-[74%] h-1 w-1 rounded-full bg-white/25 blur-[0.5px] animate-particle-twinkle [animation-delay:2.4s]" />
+      <div className="absolute left-[90%] top-[30%] h-1 w-1 rounded-full bg-violet-300/35 blur-[0.5px] animate-particle-twinkle [animation-delay:0.3s]" />
+      <div className="absolute left-[8%] top-[62%] h-1.5 w-1.5 rounded-full bg-violet-200/30 blur-[0.5px] animate-particle-twinkle [animation-delay:1.8s]" />
+      <div className="absolute left-[65%] top-[88%] h-1 w-1 rounded-full bg-violet-400/25 blur-[0.5px] animate-particle-twinkle [animation-delay:3.1s]" />
     </div>
   );
 }

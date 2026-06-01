@@ -22,7 +22,7 @@ export default function GhostLinksPage() {
           className="animate-drift"
           imageClassName="opacity-[0.11] scale-110"
         />
-        <div className="relative z-10 w-full rounded-[1.8rem] border border-white/10 bg-white/[0.045] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_20px_70px_rgba(0,0,0,0.28)] backdrop-blur-xl">
+        <div className="relative z-10 w-full rounded-[1.8rem] border border-white/10 bg-white/[0.045] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_20px_70px_rgba(0,0,0,0.28)] backdrop-blur-xl animate-slide-up-fade">
           <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <p className="text-sm uppercase tracking-[0.28em] text-violet-200/90">
@@ -46,10 +46,11 @@ export default function GhostLinksPage() {
           </div>
 
           <div className="mt-6 grid gap-4">
-            {links.map((link) => (
+            {links.map((link, index) => (
               <div
                 key={link.code}
-                className="flex flex-col gap-4 rounded-[1.5rem] border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.025))] p-4 transition duration-200 hover:border-violet-400/25 hover:bg-[linear-gradient(180deg,rgba(168,85,247,0.12),rgba(255,255,255,0.03))] lg:flex-row lg:items-center lg:justify-between"
+                style={{ animationDelay: `${index * 100 + 350}ms` }}
+                className="flex flex-col gap-4 rounded-[1.5rem] border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.025))] p-4 transition duration-200 hover:border-violet-400/25 hover:bg-[linear-gradient(180deg,rgba(168,85,247,0.12),rgba(255,255,255,0.03))] lg:flex-row lg:items-center lg:justify-between animate-slide-up-fade"
               >
                 <div>
                   <p className="text-lg font-medium text-white">{link.code}</p>
@@ -67,7 +68,7 @@ export default function GhostLinksPage() {
             ))}
           </div>
 
-          <button className="mt-6 rounded-2xl bg-gradient-to-br from-[#c084fc] via-[#8b5cf6] to-[#6d28d9] px-5 py-3 font-medium text-white shadow-[0_14px_34px_rgba(124,58,237,0.35)] transition hover:brightness-110">
+          <button className="mt-6 rounded-2xl bg-gradient-to-br from-[#c084fc] via-[#8b5cf6] to-[#6d28d9] px-5 py-3 font-medium text-white shadow-[0_14px_34px_rgba(124,58,237,0.35)] transition hover:brightness-110 active:scale-95 animate-slide-up-fade [animation-delay:700ms]">
             Generate New Link
           </button>
         </div>

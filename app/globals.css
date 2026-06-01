@@ -28,6 +28,8 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* ── existing keyframes ── */
+
 @keyframes float-slow {
   0%,
   100% {
@@ -92,7 +94,90 @@ body {
   }
 }
 
+/* ── new keyframes ── */
+
+@keyframes slide-up-fade {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes bounce-dot {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  30% {
+    transform: translateY(-7px);
+    opacity: 1;
+  }
+}
+
+@keyframes glow-breathe {
+  0%,
+  100% {
+    box-shadow:
+      0 0 20px rgba(159, 86, 255, 0.2),
+      inset 0 0 12px rgba(159, 86, 255, 0.08);
+  }
+  50% {
+    box-shadow:
+      0 0 50px rgba(159, 86, 255, 0.55),
+      inset 0 0 30px rgba(159, 86, 255, 0.22);
+  }
+}
+
+@keyframes ping-ring {
+  75%,
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+@keyframes particle-twinkle {
+  0%,
+  100% {
+    opacity: 0.12;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.65;
+    transform: scale(1.6);
+  }
+}
+
 @layer utilities {
+  /* ── existing ── */
   .animate-float-slow {
     animation: float-slow 7s ease-in-out infinite;
   }
@@ -116,14 +201,53 @@ body {
   .animate-wave-pulse {
     animation: wave-pulse 5s ease-in-out infinite;
   }
+
+  /* ── new ── */
+
+  .animate-slide-up-fade {
+    animation: slide-up-fade 0.55s cubic-bezier(0.2, 0.85, 0.15, 1) both;
+  }
+
+  .animate-slide-in-left {
+    animation: slide-in-left 0.4s cubic-bezier(0.2, 0.85, 0.15, 1) both;
+  }
+
+  .animate-slide-in-right {
+    animation: slide-in-right 0.4s cubic-bezier(0.2, 0.85, 0.15, 1) both;
+  }
+
+  .animate-bounce-dot {
+    animation: bounce-dot 1.2s ease-in-out infinite;
+  }
+
+  .animate-glow-breathe {
+    animation: glow-breathe 3s ease-in-out infinite;
+  }
+
+  .animate-ping-ring {
+    animation: ping-ring 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+
+  .animate-particle-twinkle {
+    animation: particle-twinkle 3s ease-in-out infinite;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .animate-float-slow,
   .animate-pulse-soft,
   .animate-drift,
-  .animate-spin {
+  .animate-spin,
+  .animate-slide-up-fade,
+  .animate-slide-in-left,
+  .animate-slide-in-right,
+  .animate-bounce-dot,
+  .animate-glow-breathe,
+  .animate-ping-ring,
+  .animate-particle-twinkle {
     animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 
@@ -145,3 +269,4 @@ body {
   background: rgba(255, 255, 255, 0.12);
   border-radius: 9999px;
 }
+

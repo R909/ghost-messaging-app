@@ -22,7 +22,7 @@ export default function SettingsPage() {
           className="animate-float-slow"
           imageClassName="opacity-[0.1] scale-110"
         />
-        <div className="relative z-10 w-full rounded-[1.8rem] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.025))] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_20px_70px_rgba(0,0,0,0.28)] backdrop-blur-xl">
+        <div className="relative z-10 w-full rounded-[1.8rem] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.025))] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_20px_70px_rgba(0,0,0,0.28)] backdrop-blur-xl animate-slide-up-fade">
           <h1 className="text-3xl font-semibold tracking-tight text-white">
             Settings
           </h1>
@@ -35,7 +35,8 @@ export default function SettingsPage() {
             {settings.map((item, index) => (
               <div
                 key={item.title}
-                className="flex items-center justify-between rounded-[1.4rem] border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.025))] p-4 transition duration-200 hover:border-violet-400/20 hover:bg-[linear-gradient(180deg,rgba(168,85,247,0.1),rgba(255,255,255,0.03))]"
+                style={{ animationDelay: `${index * 100 + 350}ms` }}
+                className="flex items-center justify-between rounded-[1.4rem] border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.025))] p-4 transition duration-200 hover:border-violet-400/20 hover:bg-[linear-gradient(180deg,rgba(168,85,247,0.1),rgba(255,255,255,0.03))] animate-slide-up-fade"
               >
                 <div>
                   <p className="font-medium text-white">{item.title}</p>
