@@ -30,67 +30,81 @@ export function HomePage({
   children: ReactNode;
 }) {
   return (
-    <main className="min-h-screen overflow-hidden bg-[#050309] text-white">
-      <div className="relative isolate flex min-h-screen w-full">
+    <main className="min-h-screen overflow-hidden bg-[#030106] text-white">
+      <div className="relative isolate flex min-h-screen w-full transition-all duration-500 ease-in-out">
+        {/* Dynamic Multi-layered Glass Ambient Glows */}
         <BackgroundGlow />
 
-        <section className="relative z-10 flex min-h-screen w-full flex-col overflow-hidden border border-white/10 bg-white/5 shadow-[0_30px_120px_rgba(0,0,0,0.55)] backdrop-blur-2xl lg:flex-row">
-          <aside className="relative flex w-full flex-col border-b border-white/10 bg-[#0d0a14]/90 p-4 sm:p-5 lg:w-[270px] lg:border-b-0 lg:border-r">
-            <div className="flex items-center gap-3 px-2 pb-5 pt-2">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#f0d9ff] via-[#c07cff] to-[#7b35ff] text-2xl shadow-[0_0_30px_rgba(170,91,255,0.45)] animate-panel-bob">
+        {/* Master Glass Wrap Panel Container */}
+        <section className="relative z-10 flex min-h-screen w-full flex-col overflow-hidden border border-white/10 bg-white/[0.02] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.05)] backdrop-blur-[40px] transition-all duration-700 cubic-bezier(0.16,1,0.3,1) lg:flex-row m-0 lg:m-4 lg:min-h-[calc(100vh-2rem)] lg:w-[calc(100vw-2rem)] lg:rounded-[2.5rem]">
+          
+          {/* Glass Sidebar Aside Menu */}
+          <aside className="relative flex w-full flex-col border-b border-white/10 bg-black/30 p-4 sm:p-5 backdrop-blur-2xl transition-all duration-500 lg:w-[280px] lg:border-b-0 lg:border-r lg:p-6">
+            <div className="flex items-center gap-3 px-2 pb-6 pt-2 transition-transform duration-300 hover:scale-[1.02]">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-white/20 via-violet-500/40 to-fuchsia-600/40 text-2xl shadow-[0_0_30px_rgba(168,85,247,0.3),inset_0_1px_1px_rgba(255,255,255,0.4)] border border-white/20 animate-pulse [animation-duration:4s]">
                 👻
               </div>
               <div>
-                <p className="text-lg font-semibold tracking-tight text-white">
+                <p className="text-lg font-semibold tracking-tight text-white/90 drop-shadow-sm">
                   GhostChat
                 </p>
-                <p className="text-xs text-white/55">Anonymous by design</p>
+                <p className="text-xs tracking-wide text-white/40 uppercase font-medium">Anonymous by design</p>
               </div>
             </div>
 
-            <nav className="mt-1 flex gap-3 overflow-x-auto pb-4 lg:flex-col lg:overflow-visible lg:pb-0">
+            {/* Navigation Loop Container with Staggered Transition Elements */}
+            <nav className="mt-1 flex gap-3 overflow-x-auto pb-4 scrollbar-none lg:flex-col lg:overflow-visible lg:pb-0">
               {navigation.map(({ label, href, route, icon: Icon }, navIndex) => {
                 const isActive = route === active;
                 return (
                   <Link
                     key={label}
                     href={href}
-                    style={{ animationDelay: `${navIndex * 60}ms` }}
+                    style={{ 
+                      animationDelay: `${navIndex * 50}ms`,
+                    }}
                     className={[
-                      "flex min-w-[82px] flex-1 flex-col items-center justify-center gap-2 rounded-2xl border px-3 py-4 text-xs transition duration-200 lg:min-w-0 lg:flex-row lg:justify-start lg:rounded-3xl lg:px-4 animate-slide-in-left",
+                      "flex min-w-[90px] flex-1 flex-col items-center justify-center gap-2 rounded-2xl border px-3 py-4 text-xs font-medium transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] hover:scale-[1.03] active:scale-[0.97] lg:min-w-0 lg:flex-row lg:justify-start lg:rounded-2xl lg:px-4 lg:py-3.5 animate-fade-in-up",
                       isActive
-                        ? "border-violet-400/40 bg-violet-500/20 text-[#e7d3ff] animate-glow-breathe"
-                        : "border-white/8 bg-white/[0.03] text-white/60 hover:border-white/15 hover:bg-white/[0.05]",
+                        ? "border-violet-400/30 bg-gradient-to-r from-violet-500/15 to-fuchsia-500/15 text-[#eecfff] shadow-[0_12px_24px_-10px_rgba(168,85,247,0.4),inset_0_1px_0_rgba(255,255,255,0.15)] backdrop-blur-md"
+                        : "border-white/[0.04] bg-white/[0.02] text-white/50 hover:border-white/10 hover:bg-white/[0.06] hover:text-white/80",
                     ].join(" ")}
                   >
-                    <Icon />
-                    <span className="text-center lg:text-left">{label}</span>
+                    <div className={`transition-transform duration-300 ${isActive ? 'scale-110 text-violet-300 drop-shadow-[0_0_8px_rgba(168,85,247,0.6)]' : 'group-hover:scale-105'}`}>
+                      <Icon />
+                    </div>
+                    <span className="text-center lg:text-left transition-colors duration-200">{label}</span>
                   </Link>
                 );
               })}
             </nav>
 
-            <div className="mt-auto hidden rounded-[1.5rem] border border-white/8 bg-[linear-gradient(180deg,rgba(147,51,234,0.14),rgba(8,8,16,0.35))] p-4 lg:block animate-panel-bob [animation-delay:2s]">
+            {/* Glass Container Action Card Profile Widget */}
+            <div className="mt-auto hidden rounded-2xl border border-white/5 bg-gradient-to-b from-white/[0.03] to-transparent p-4 lg:block transition-all duration-500 hover:border-white/10 hover:bg-white/[0.04]">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white/10 text-lg">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/[0.06] border border-white/5 text-lg shadow-inner">
                   <GhostAvatar size="sm" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-white">Ghost Mode</p>
-                  <p className="text-xs text-white/55">End-to-end encrypted</p>
+                  <p className="text-sm font-medium text-white/80">Ghost Mode</p>
+                  <p className="text-xs text-white/40">End-to-end encrypted</p>
                 </div>
               </div>
-              <div className="mt-4 rounded-2xl border border-emerald-400/20 bg-emerald-400/8 px-3 py-2 text-xs text-emerald-300">
+              <div className="mt-4 rounded-xl border border-emerald-400/10 bg-emerald-400/[0.04] px-3 py-2 text-xs font-medium text-emerald-400/90 backdrop-blur-sm shadow-[inset_0_1px_0_rgba(52,211,153,0.05)] transition-all duration-300 hover:bg-emerald-400/[0.06]">
                 Your messages self-destruct in 24 hours.
               </div>
             </div>
           </aside>
 
-          <div className="relative flex flex-1 flex-col overflow-hidden">{children}</div>
+          {/* Children Scene View Content Panel Container Context */}
+          <div className="relative flex flex-1 flex-col overflow-hidden bg-black/[0.05] backdrop-blur-xl transition-all duration-500">
+            {children}
+          </div>
         </section>
 
-        <div className="pointer-events-none absolute inset-x-0 bottom-4 text-center text-[11px] text-white/40 sm:bottom-6">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/8 bg-black/20 px-3 py-2">
+        {/* Global Security Footer Ribbon Badge */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-6 z-20 text-center text-[11px] font-medium tracking-wide text-white/40 uppercase sm:bottom-8 transition-opacity duration-300">
+          <span className="inline-flex items-center gap-2 rounded-full border border-white/5 bg-black/40 px-4 py-2 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-md">
             <LockIcon />
             Your messages are private and end-to-end encrypted.
           </span>
@@ -115,19 +129,19 @@ export function GhostBackdrop({
     <div
       aria-hidden
       className={[
-        "pointer-events-none absolute inset-0 overflow-hidden",
+        "pointer-events-none absolute inset-0 overflow-hidden transition-all duration-700 ease-in-out",
         className,
       ].join(" ")}
     >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(168,85,247,0.18),transparent_30%),radial-gradient(circle_at_30%_80%,rgba(34,211,238,0.08),transparent_26%)]" />
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,4,11,0.2),rgba(6,4,11,0.56))]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(168,85,247,0.12),transparent_40%),radial-gradient(circle_at_30%_80%,rgba(34,211,238,0.05),transparent_36%)] z-[1]" />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,1,6,0.4),rgba(3,1,6,0.75))] z-[2]" />
       <Image
         src={src}
         alt={alt}
         fill
         sizes="100vw"
         className={[
-          "object-cover object-center opacity-[0.22] mix-blend-screen drop-shadow-[0_28px_60px_rgba(0,0,0,0.42)]",
+          "object-cover object-center opacity-[0.16] mix-blend-screen filter saturate-[0.8] transition-all duration-1000 ease-out",
           imageClassName,
         ].join(" ")}
         priority={false}
@@ -138,28 +152,29 @@ export function GhostBackdrop({
 
 function BackgroundGlow() {
   return (
-    <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-      <div className="absolute inset-y-0 left-0 w-[36%] bg-[radial-gradient(circle_at_18%_20%,rgba(154,73,255,0.22),transparent_32%),linear-gradient(90deg,rgba(69,26,118,0.2),transparent_70%)] opacity-80" />
-      <div className="absolute right-[-8%] top-[8%] h-[34rem] w-[34rem] rounded-full bg-[radial-gradient(circle,rgba(141,63,255,0.23),transparent_62%)] blur-3xl" />
-      <div className="absolute left-[12%] top-[10%] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.05),transparent_70%)] blur-3xl" />
-      <div className="absolute bottom-[-6rem] right-[18%] h-[24rem] w-[24rem] rounded-full bg-[radial-gradient(circle,rgba(120,44,210,0.16),transparent_68%)] blur-3xl" />
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,4,11,0.68),rgba(6,4,11,0.92))]" />
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:90px_90px] opacity-[0.35]" />
-      {/* Twinkling star particles */}
-      <div className="absolute left-[22%] top-[36%] h-1.5 w-1.5 rounded-full bg-violet-300/55 blur-[0.5px] animate-particle-twinkle" />
-      <div className="absolute left-[55%] top-[20%] h-1 w-1 rounded-full bg-violet-200/45 blur-[0.5px] animate-particle-twinkle [animation-delay:1.2s]" />
-      <div className="absolute left-[76%] top-[55%] h-1.5 w-1.5 rounded-full bg-violet-400/40 blur-[0.5px] animate-particle-twinkle [animation-delay:0.6s]" />
-      <div className="absolute left-[38%] top-[74%] h-1 w-1 rounded-full bg-white/25 blur-[0.5px] animate-particle-twinkle [animation-delay:2.4s]" />
-      <div className="absolute left-[90%] top-[30%] h-1 w-1 rounded-full bg-violet-300/35 blur-[0.5px] animate-particle-twinkle [animation-delay:0.3s]" />
-      <div className="absolute left-[8%] top-[62%] h-1.5 w-1.5 rounded-full bg-violet-200/30 blur-[0.5px] animate-particle-twinkle [animation-delay:1.8s]" />
-      <div className="absolute left-[65%] top-[88%] h-1 w-1 rounded-full bg-violet-400/25 blur-[0.5px] animate-particle-twinkle [animation-delay:3.1s]" />
+    <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden transition-opacity duration-1000">
+      <div className="absolute inset-y-0 left-0 w-[45%] bg-[radial-gradient(circle_at_20%_25%,rgba(147,51,234,0.18),transparent_45%)] opacity-90 blur-2xl" />
+      <div className="absolute right-[-10%] top-[-5%] h-[40rem] w-[40rem] rounded-full bg-fuchsia-600/[0.12] blur-[120px] mix-blend-screen animate-pulse [animation-duration:8s]" />
+      <div className="absolute left-[15%] top-[15%] h-[24rem] w-[24rem] rounded-full bg-violet-500/[0.08] blur-[100px] mix-blend-screen" />
+      <div className="absolute bottom-[-10%] right-[15%] h-[35rem] w-[35rem] rounded-full bg-purple-700/[0.1] blur-[130px] mix-blend-screen" />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,1,6,0.5),rgba(3,1,6,0.95))]" />
+      
+      {/* High-Fidelity Technical UI Ambient Grid */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.008)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.008)_1px,transparent_1px)] bg-[size:60px_60px] opacity-60" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_20%,#030106_80%)]" />
+
+      {/* Floating Spark Glass Atoms */}
+      <div className="absolute left-[12%] top-[25%] h-1 w-1 rounded-full bg-violet-300/40 blur-[0.5px] animate-pulse [animation-duration:3s]" />
+      <div className="absolute left-[48%] top-[18%] h-1.5 w-1.5 rounded-full bg-fuchsia-300/30 blur-[0.5px] animate-pulse [animation-duration:5s]" />
+      <div className="absolute left-[82%] top-[45%] h-1 w-1 rounded-full bg-violet-400/40 blur-[0.5px] animate-pulse [animation-duration:4s]" />
+      <div className="absolute left-[28%] top-[68%] h-1.5 w-1.5 rounded-full bg-white/20 blur-[0.5px] animate-pulse [animation-duration:6s]" />
     </div>
   );
 }
 
 export function SectionHeaderButton({ children }: { children: ReactNode }) {
   return (
-    <button className="grid h-11 w-11 place-items-center rounded-2xl border border-white/8 bg-white/[0.04] text-white/70 transition hover:bg-white/10">
+    <button className="grid h-11 w-11 place-items-center rounded-2xl border border-white/[0.06] bg-white/[0.03] text-white/60 shadow-[0_4px_12px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.05)] backdrop-blur-md transition-all duration-300 cubic-bezier(0.16,1,0.3,1) hover:scale-105 hover:border-white/12 hover:bg-white/[0.08] hover:text-white/90 active:scale-95">
       {children}
     </button>
   );
@@ -176,25 +191,18 @@ export function GhostAvatar({
   const eyes = size === "sm" ? "h-1.5 w-1.5 top-2.5" : "h-2.5 w-2.5 top-[11px]";
 
   return (
-    <div
-      className={[
-        "relative grid place-items-center rounded-full",
-        dimensions,
-        accent,
-      ].join(" ")}
-    >
-      <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_40%_35%,rgba(255,255,255,0.96),rgba(232,206,255,0.9)_52%,rgba(121,59,170,0.35)_100%)]" />
-      <span className={`absolute left-[28%] ${eyes} rounded-full bg-[#35124f]`} />
-      <span className={`absolute right-[28%] ${eyes} rounded-full bg-[#35124f]`} />
-      <div
-        className={[
-          "absolute -bottom-1 left-1/2 -translate-x-1/2 rounded-b-full bg-[linear-gradient(180deg,rgba(255,255,255,0.9),rgba(206,149,255,0.9))]",
-          size === "sm" ? "h-2 w-4" : "h-3 w-7",
-        ].join(" ")}
-      />
+    <div className={[ "relative grid place-items-center rounded-full transition-transform duration-300 hover:scale-105", dimensions, accent ].join(" ")}>
+      <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_40%_35%,rgba(255,255,255,0.98),rgba(235,215,255,0.95)_52%,rgba(139,92,246,0.4)_100%)] shadow-sm" />
+      <span className={`absolute left-[28%] ${eyes} rounded-full bg-[#2a0845] transition-all duration-300`} />
+      <span className={`absolute right-[28%] ${eyes} rounded-full bg-[#2a0845] transition-all duration-300`} />
+      <div className={[ "absolute -bottom-0.5 left-1/2 -translate-x-1/2 rounded-b-full bg-[linear-gradient(180deg,rgba(255,255,255,1),rgba(216,180,254,1))]", size === "sm" ? "h-2 w-4" : "h-3 w-7" ].join(" ")} />
     </div>
   );
 }
+
+/* ==========================================================================
+   ATOMIC SYSTEM NAVIGATION SVGS
+   ========================================================================== */
 
 function ChatBubbleIcon() {
   return (
