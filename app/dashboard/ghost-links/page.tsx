@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { GhostBackdrop, GhostAvatar, HomePage } from "../components/home";
+import { GhostBackdrop, GhostAvatar, HomePage } from "../../components/home";
 
 const links = [
   { code: "ghst://violet-13", status: "Active", expiry: "Expires in 4h" },

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { GhostBackdrop, GhostAvatar, HomePage } from "../components/home";
+import { GhostBackdrop, GhostAvatar, HomePage } from "../../components/home";
 
 export default function ProfilePage() {
   const [rotateX, setRotateX] = useState(0);

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { GhostBackdrop, HomePage } from "../components/home";
+import { GhostBackdrop, HomePage } from "../../components/home";
 
 const initialSettings = [
   { title: "Ghost Mode", description: "Mask underlying socket metadata on message relays.", enabled: true },

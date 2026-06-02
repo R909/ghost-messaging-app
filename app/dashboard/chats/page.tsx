@@ -6,7 +6,7 @@ import {
   GhostAvatar,
   HomePage,
   SectionHeaderButton,
-} from "../components/home";
+} from "../../components/home";
 
 const conversations = [
   { name: "Ghost_467", preview: "Hey there! 👋", time: "Now", accent: "ring-violet-400/40 bg-violet-500/20" },

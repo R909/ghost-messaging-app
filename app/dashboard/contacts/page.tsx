@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { GhostBackdrop, GhostAvatar, HomePage } from "../components/home";
+import { GhostBackdrop, GhostAvatar, HomePage } from "../../components/home";
 
 const contacts = [
   { name: "Ghost_467", status: "Online now", mood: "Calm" },

@@ -34,3 +34,13 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+//Project Docs
+
+1. file based routing:- login,registeration (static routes)
+2. layout concept :- dashboard-->chats,contacts,profile,settings,ghost-links i.e the routes are :- http:localhost:3000/dashboard/chats and so on. (nested routes)
+3. Dynamic route or [slug]
+4. group routes or ()--> i have group the route of auth i.e registeration and login
+5. components--> private component and shared componets
+4. api routes

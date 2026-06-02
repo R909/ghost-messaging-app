@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { GhostAuthScene } from "../components/ghost-auth-scene";
+import { GhostAuthScene } from "../../components/ghost-auth-scene";
 
 export default function RegisterPage() {
   const [focusedField, setFocusedField] = useState<string | null>(null);

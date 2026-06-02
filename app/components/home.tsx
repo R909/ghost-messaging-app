@@ -10,16 +10,16 @@ export type GhostRoute =
   | "profile";
 
 const navigation = [
-  { label: "Chats", href: "/chats", route: "chats" as const, icon: ChatBubbleIcon },
+  { label: "Chats", href: "/dashboard/chats", route: "chats" as const, icon: ChatBubbleIcon },
   {
     label: "Ghost Links",
-    href: "/ghost-links",
+    href: "/dashboard/ghost-links",
     route: "ghost-links" as const,
     icon: LinkIcon,
   },
-  { label: "Contacts", href: "/contacts", route: "contacts" as const, icon: UserIcon },
-  { label: "Settings", href: "/settings", route: "settings" as const, icon: GearIcon },
-  { label: "Profile", href: "/profile", route: "profile" as const, icon: UserIcon },
+  { label: "Contacts", href: "/dashboard/contacts", route: "contacts" as const, icon: UserIcon },
+  { label: "Settings", href: "/dashboard/settings", route: "settings" as const, icon: GearIcon },
+  { label: "Profile", href: "/dashboard/profile", route: "profile" as const, icon: UserIcon },
 ];
 
 export function HomePage({

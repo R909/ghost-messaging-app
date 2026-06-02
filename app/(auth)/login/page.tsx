@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { GhostAuthScene } from "../components/ghost-auth-scene";
+import { GhostAuthScene } from "../../components/ghost-auth-scene";
 
 export default function LoginPage() {
   const [focusedField, setFocusedField] = useState<string | null>(null);
@@ -78,7 +78,7 @@ export default function LoginPage() {
         </div>
 
         <Link
-          href="/chats"
+          href="/dashboard"
           className="mt-2 flex h-11 w-full items-center justify-center rounded-xl bg-gradient-to-r from-[#7b3df0] via-[#8d43ff] to-[#c65dff] text-sm font-medium text-white shadow-[0_12px_30px_rgba(136,68,255,0.35)] transition-all duration-300 hover:brightness-110 hover:shadow-[0_15px_35px_rgba(136,68,255,0.5)] active:scale-[0.98]"
         >
           Initialize Session
