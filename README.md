@@ -43,4 +43,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 3. Dynamic route or [slug]
 4. group routes or ()--> i have group the route of auth i.e registeration and login
 5. components--> private component and shared componets
-4. api routes
+6. install mongoose and zod and make all the models and valiadtion schemas
+7. api routes
