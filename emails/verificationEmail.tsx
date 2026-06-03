@@ -5,11 +5,11 @@ import {
 } from '@react-email/components';
 
 interface EmailTemplateProps {
-  firstName: string;
+  username: string;
   verificationCode: string;
 }
 
-export function EmailTemplate({ firstName, verificationCode }: EmailTemplateProps) {
+export function EmailTemplate({ username, verificationCode }: EmailTemplateProps) {
   const chars = verificationCode.split('');
 
   return (
@@ -58,7 +58,7 @@ export function EmailTemplate({ firstName, verificationCode }: EmailTemplateProp
               <Section className="px-10 pt-9 pb-7">
 
                 <Heading className="text-[#f0e8ff] text-xl font-semibold m-0 mb-3">
-                  Hey {firstName} 👋
+                  Hey {username} 👋
                 </Heading>
                 <Text className="text-[rgba(200,185,255,0.65)] text-sm leading-7 m-0 mb-6">
                   Welcome to{' '}
