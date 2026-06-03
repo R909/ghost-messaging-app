@@ -1,56 +1,161 @@
+// app/api/auth/register/route.ts
+
 import { sendVerificationEmail } from "@/app/helper/sendVerificationEmail";
 import bcrypt from "bcryptjs";
-import {User} from "@/app/model/User";
+import { User } from "@/app/model/User";
 import DBConnection from "@/app/lib/dbConnect";
+import { NextRequest, NextResponse } from "next/server";
 
-export const POST = async (req: Request) => {
+export const POST = async (req: NextRequest) => {
+  try {
     await DBConnection();
 
-    const { username, email,password } = await req.json();
+    const body = await req.json();
+    const { username, email, password } = body;
 
-    const existingUserVerifiedByUsername = await User.findOne({ username,isVerified:true });
-
-    if (existingUserVerifiedByUsername) {
-        return Response.json({
-            success: false,
-            message: "User already exists   ",
-        });
+    if (!username || !email || !password) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Username, email and password are required.",
+        },
+        { status: 400 }
+      );
     }
-     const existingUserVerifiedByEmail = await User.findOne({ email });
-    const verifiedCode = Math.floor(Math.random() * 1000000).toString();
 
-     if(existingUserVerifiedByEmail){
-        return Response.json({
-         
-     })}
-     else{
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const expireDate=new Date();
-    expireDate.setHours(expireDate.getHours() + 1);  
-     const newUser = new User({
-        username,
-        password: hashedPassword,
-        email,
-        verifyCode:verifiedCode,
-        verifyCodeExpire: expireDate,
-        isAcceptingMessages: false,
-        isVerified: false,
-        messages: [],
+    if (password.length < 6) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Password must be at least 6 characters.",
+        },
+        { status: 400 }
+      );
+    }
+
+    const existingUserByUsername = await User.findOne({
+      username,
+      isVerified: true,
     });
-        await newUser.save();
 
-     }
-  const sendEmailResponse = await sendVerificationEmail(username, email, verifiedCode);
+    if (existingUserByUsername) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "This username is already taken. Please choose another.",
+        },
+        { status: 409 }
+      );
+    }
 
-   
-if(!sendEmailResponse.success){
-    return {
-        success: false,
-        message: sendEmailResponse.message,
-    };
-}   
-    return {
+    const verifyCode = Math.floor(
+      100000 + Math.random() * 900000
+    ).toString();
+
+    const verifyCodeExpire = new Date();
+    verifyCodeExpire.setHours(verifyCodeExpire.getHours() + 1);
+
+    const existingUserByEmail = await User.findOne({ email });
+
+    if (existingUserByEmail) {
+      // Already verified → reject
+      if (existingUserByEmail.isVerified) {
+        return NextResponse.json(
+          {
+            success: false,
+            message:
+              "An account with this email already exists. Please sign in.",
+          },
+          { status: 409 }
+        );
+      }
+
+      // Registered but not verified → update and resend code
+      const hashedPassword = await bcrypt.hash(password, 10);
+      existingUserByEmail.username = username;
+      existingUserByEmail.password = hashedPassword;
+      existingUserByEmail.verifyCode = verifyCode;
+      existingUserByEmail.verifyCodeExpire = verifyCodeExpire;
+      await existingUserByEmail.save();
+
+    } else {
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      const newUser = new User({
+        username,
+        email,
+        password: hashedPassword,
+        verifyCode,
+        verifyCodeExpire,
+        isVerified: false,
+        isAcceptingMessages: true,
+        messages: [],
+      });
+
+      await newUser.save();
+    }
+
+    const emailResponse = await sendVerificationEmail(
+      username,
+      email,
+      verifyCode
+    );
+
+    if (!emailResponse.success) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: emailResponse.message || "Failed to send verification email. Please try again.",
+        },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json(
+      {
         success: true,
-        message: "User created successfully!. Please verify your email.",
-    };
-}
+        message:
+          "Account created successfully. Please check your email to verify your account.",
+      },
+      { status: 201 }
+    );
+
+  } catch (error: unknown) {
+    console.error("[REGISTER ERROR]:", error);
+
+    // Handle mongoose validation errors
+    if (error instanceof Error && error.name === "ValidationError") {
+      return NextResponse.json(
+        {
+          success: false,
+          message: error.message,
+        },
+        { status: 400 }
+      );
+    }
+
+    // Handle mongoose duplicate key error
+    if (
+      typeof error === "object" &&
+      error !== null &&
+      "code" in error &&
+      (error as { code: number }).code === 11000
+    ) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "An account with this username or email already exists.",
+        },
+        { status: 409 }
+      );
+    }
+
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Internal server error. Please try again later.",
+      },
+      { status: 500 }
+    );
+  }
+};
