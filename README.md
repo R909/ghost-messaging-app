@@ -44,4 +44,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 4. group routes or ()--> i have group the route of auth i.e registeration and login
 5. components--> private component and shared componets
 6. install mongoose and zod and make all the models and valiadtion schemas
-7. api routes
+7. making all the users and messages models
+8. Installing all libraries for the email send(i want t verify user by sending him/her a verification code)
+9. Making the sendEmailVerification Template using @react-email/componets
+10. api routes
