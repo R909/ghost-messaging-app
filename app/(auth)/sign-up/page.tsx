@@ -232,15 +232,6 @@ export default function RegisterPage() {
             <p className="text-[11px] text-red-400">{errors.confirmPassword.message}</p>
           )}
         </div>
-
-        <label className="flex items-start gap-2.5 pt-1 text-xs text-white/55 cursor-pointer select-none hover:text-white/80 transition-colors">
-          <input
-            type="checkbox"
-            className="mt-0.5 h-4 w-4 rounded border-white/20 bg-transparent text-violet-500 focus:ring-offset-0 focus:ring-violet-400/50"
-          />
-          <span className="leading-tight">I agree to the Terms &amp; Conditions</span>
-        </label>
-
         <button
           type="submit"
           disabled={isLoading}

@@ -70,7 +70,7 @@ export default function LoginPage() {
             htmlFor="login-identifier"
             className="text-[10px] font-semibold uppercase tracking-[0.25em] text-white/45"
           >
-            Terminal Handle / Email
+           Email
           </label>
           <div
             className={`relative rounded-xl border transition-all duration-300 ${
@@ -106,7 +106,7 @@ export default function LoginPage() {
             htmlFor="login-password"
             className="text-[10px] font-semibold uppercase tracking-[0.25em] text-white/45"
           >
-            Secret Access Token
+            Password
           </label>
           <div
             className={`relative rounded-xl border transition-all duration-300 ${
@@ -143,20 +143,6 @@ export default function LoginPage() {
             <p className="text-[11px] text-red-400">{errors.password.message}</p>
           )}
         </div>
-
-        <div className="flex items-center justify-between gap-3 pt-1 text-xs text-white/50">
-          <label className="flex items-center gap-2 cursor-pointer select-none hover:text-white/80 transition-colors">
-            <input
-              type="checkbox"
-              className="h-4 w-4 rounded border-white/20 bg-transparent text-violet-500 focus:ring-offset-0 focus:ring-violet-400/50"
-            />
-            Keep Session Alive
-          </label>
-          <Link href="#" className="text-white/45 transition hover:text-violet-300">
-            Recover Passphrase
-          </Link>
-        </div>
-
         <button
           type="submit"
           disabled={isLoading}

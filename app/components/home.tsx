@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { ReactNode } from "react";
+import LogoutButton from "./LogoutButton";
 
 export type GhostRoute =
   | "chats"
@@ -79,6 +80,11 @@ export function HomePage({
               })}
             </nav>
 
+            {/* Logout — visible on mobile below nav */}
+            <div className="mt-3 lg:hidden">
+              <LogoutButton />
+            </div>
+
             {/* Glass Container Action Card Profile Widget */}
             <div className="mt-auto hidden rounded-2xl border border-white/5 bg-gradient-to-b from-white/[0.03] to-transparent p-4 lg:block transition-all duration-500 hover:border-white/10 hover:bg-white/[0.04]">
               <div className="flex items-center gap-3">
@@ -92,6 +98,9 @@ export function HomePage({
               </div>
               <div className="mt-4 rounded-xl border border-emerald-400/10 bg-emerald-400/[0.04] px-3 py-2 text-xs font-medium text-emerald-400/90 backdrop-blur-sm shadow-[inset_0_1px_0_rgba(52,211,153,0.05)] transition-all duration-300 hover:bg-emerald-400/[0.06]">
                 Your messages self-destruct in 24 hours.
+              </div>
+              <div className="mt-3">
+                <LogoutButton />
               </div>
             </div>
           </aside>
