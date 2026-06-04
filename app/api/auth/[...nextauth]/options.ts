@@ -10,44 +10,56 @@ export const authOptions: NextAuthOptions = {
     id: "credentials",
     name: "Credentials",
     credentials: {
-      email: { label: "Email", type: "text" },
+      identifier: { label: "Email or Username", type: "text" },
       password: { label: "Password", type: "password" },
     },
-    async authorize(credentials:any):Promise<any> {
+    async authorize(credentials) {
+        if (!credentials?.identifier || !credentials?.password) return null;
         await DBConnection();
-        try{
-          const user =  await User.findOne({
+        try {
+          const user = await User.findOne({
                 $or: [
-                    { email: credentials?.identifier?.email },
-                    { username: credentials?.identifier?.username  }
+                    { email: credentials.identifier },
+                    { username: credentials.identifier },
                 ]
-            })
-            if(!user){
-                throw new Error("User not found");
+            });
+            if (!user) {
+                throw new Error("No account found with that email or username");
             }
-            if(!user.isVerified){
-                throw new Error("Please verified your account first");
+            if (!user.isVerified) {
+                throw new Error("Please verify your account before signing in");
             }
             const isPasswordMatch = await bcrypt.compare(credentials.password, user.password);
             if (!isPasswordMatch) {
-                throw new Error("Invalid password");
+                throw new Error("Incorrect password");
             }
-            return user
-        }
-        catch(error:any){
-            throw new error(error);
+            return {
+                id: user._id.toString(),
+                _id: user._id.toString(),
+                email: user.email,
+                username: user.username,
+                isVerified: user.isVerified,
+                isAcceptingMessages: user.isAcceptingMessages,
+            };
+        } catch (error: unknown) {
+            throw new Error(error instanceof Error ? error.message : "Authentication failed");
         }
     },
   }),
 ],
+
+session: {
+  strategy: "jwt",
+},
+
 pages: {
-  signIn: "sign-in",
+  signIn: "/sign-in",
 },
 
 callbacks: {
   async jwt({ token, user }) {
     if (user) {
-      token._id = user._id;
+      token._id = user._id?.toString();
       token.email = user.email;
       token.username = user.username;
       token.isVerified = user.isVerified;
@@ -68,5 +80,5 @@ callbacks: {
   },
 },
 
-secret:  process.env.NEXTAUTH_SECRET ,
+secret: process.env.NEXTAUTH_SECRET,
 }

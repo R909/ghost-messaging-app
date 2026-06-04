@@ -8,8 +8,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (req: NextRequest) => {
   try {
-    await DBConnection();
-
+     await DBConnection();
     const body = await req.json();
     const { username, email, password } = body;
 
