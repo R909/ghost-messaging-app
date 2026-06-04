@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { ReactNode } from "react";
-import LogoutButton from "./LogoutButton";
+import UserProfile from "./UserProfile";
 
 export type GhostRoute =
   | "chats"
@@ -80,28 +80,14 @@ export function HomePage({
               })}
             </nav>
 
-            {/* Logout — visible on mobile below nav */}
-            <div className="mt-3 lg:hidden">
-              <LogoutButton />
+            {/* Profile + logout — visible on mobile below nav */}
+            <div className="mt-3 rounded-2xl border border-white/5 bg-gradient-to-b from-white/[0.03] to-transparent p-4 lg:hidden">
+              <UserProfile />
             </div>
 
             {/* Glass Container Action Card Profile Widget */}
             <div className="mt-auto hidden rounded-2xl border border-white/5 bg-gradient-to-b from-white/[0.03] to-transparent p-4 lg:block transition-all duration-500 hover:border-white/10 hover:bg-white/[0.04]">
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/[0.06] border border-white/5 text-lg shadow-inner">
-                  <GhostAvatar size="sm" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-white/80">Ghost Mode</p>
-                  <p className="text-xs text-white/40">End-to-end encrypted</p>
-                </div>
-              </div>
-              <div className="mt-4 rounded-xl border border-emerald-400/10 bg-emerald-400/[0.04] px-3 py-2 text-xs font-medium text-emerald-400/90 backdrop-blur-sm shadow-[inset_0_1px_0_rgba(52,211,153,0.05)] transition-all duration-300 hover:bg-emerald-400/[0.06]">
-                Your messages self-destruct in 24 hours.
-              </div>
-              <div className="mt-3">
-                <LogoutButton />
-              </div>
+              <UserProfile />
             </div>
           </aside>
 
