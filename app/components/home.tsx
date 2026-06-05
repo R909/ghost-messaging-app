@@ -33,13 +33,10 @@ export function HomePage({
   return (
     <main className="min-h-screen overflow-hidden bg-[#030106] text-white">
       <div className="relative isolate flex min-h-screen w-full transition-all duration-500 ease-in-out">
-        {/* Dynamic Multi-layered Glass Ambient Glows */}
         <BackgroundGlow />
 
-        {/* Master Glass Wrap Panel Container */}
         <section className="relative z-10 flex min-h-screen w-full flex-col overflow-hidden border border-white/10 bg-white/[0.02] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.05)] backdrop-blur-[40px] transition-all duration-700 cubic-bezier(0.16,1,0.3,1) lg:flex-row m-0 lg:m-4 lg:min-h-[calc(100vh-2rem)] lg:w-[calc(100vw-2rem)] lg:rounded-[2.5rem]">
           
-          {/* Glass Sidebar Aside Menu */}
           <aside className="relative flex w-full flex-col border-b border-white/10 bg-black/30 p-4 sm:p-5 backdrop-blur-2xl transition-all duration-500 lg:w-[280px] lg:border-b-0 lg:border-r lg:p-6">
             <div className="flex items-center gap-3 px-2 pb-6 pt-2 transition-transform duration-300 hover:scale-[1.02]">
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-white/20 via-violet-500/40 to-fuchsia-600/40 text-2xl shadow-[0_0_30px_rgba(168,85,247,0.3),inset_0_1px_1px_rgba(255,255,255,0.4)] border border-white/20 animate-pulse [animation-duration:4s]">
@@ -53,7 +50,6 @@ export function HomePage({
               </div>
             </div>
 
-            {/* Navigation Loop Container with Staggered Transition Elements */}
             <nav className="mt-1 flex gap-3 overflow-x-auto pb-4 scrollbar-none lg:flex-col lg:overflow-visible lg:pb-0">
               {navigation.map(({ label, href, route, icon: Icon }, navIndex) => {
                 const isActive = route === active;
@@ -80,24 +76,20 @@ export function HomePage({
               })}
             </nav>
 
-            {/* Profile + logout — visible on mobile below nav */}
             <div className="mt-3 rounded-2xl border border-white/5 bg-gradient-to-b from-white/[0.03] to-transparent p-4 lg:hidden">
               <UserProfile />
             </div>
 
-            {/* Glass Container Action Card Profile Widget */}
             <div className="mt-auto hidden rounded-2xl border border-white/5 bg-gradient-to-b from-white/[0.03] to-transparent p-4 lg:block transition-all duration-500 hover:border-white/10 hover:bg-white/[0.04]">
               <UserProfile />
             </div>
           </aside>
 
-          {/* Children Scene View Content Panel Container Context */}
           <div className="relative flex flex-1 flex-col overflow-hidden bg-black/[0.05] backdrop-blur-xl transition-all duration-500">
             {children}
           </div>
         </section>
 
-        {/* Global Security Footer Ribbon Badge */}
         <div className="pointer-events-none absolute inset-x-0 bottom-6 z-20 text-center text-[11px] font-medium tracking-wide text-white/40 uppercase sm:bottom-8 transition-opacity duration-300">
           <span className="inline-flex items-center gap-2 rounded-full border border-white/5 bg-black/40 px-4 py-2 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-md">
             <LockIcon />
@@ -154,11 +146,9 @@ function BackgroundGlow() {
       <div className="absolute bottom-[-10%] right-[15%] h-[35rem] w-[35rem] rounded-full bg-purple-700/[0.1] blur-[130px] mix-blend-screen" />
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,1,6,0.5),rgba(3,1,6,0.95))]" />
       
-      {/* High-Fidelity Technical UI Ambient Grid */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.008)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.008)_1px,transparent_1px)] bg-[size:60px_60px] opacity-60" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_20%,#030106_80%)]" />
 
-      {/* Floating Spark Glass Atoms */}
       <div className="absolute left-[12%] top-[25%] h-1 w-1 rounded-full bg-violet-300/40 blur-[0.5px] animate-pulse [animation-duration:3s]" />
       <div className="absolute left-[48%] top-[18%] h-1.5 w-1.5 rounded-full bg-fuchsia-300/30 blur-[0.5px] animate-pulse [animation-duration:5s]" />
       <div className="absolute left-[82%] top-[45%] h-1 w-1 rounded-full bg-violet-400/40 blur-[0.5px] animate-pulse [animation-duration:4s]" />
@@ -194,10 +184,6 @@ export function GhostAvatar({
     </div>
   );
 }
-
-/* ==========================================================================
-   ATOMIC SYSTEM NAVIGATION SVGS
-   ========================================================================== */
 
 function ChatBubbleIcon() {
   return (

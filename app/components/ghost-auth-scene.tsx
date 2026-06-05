@@ -8,6 +8,8 @@ import { GhostBackdrop } from "./home";
 type SlideDirection = "left" | "right";
 type Phase = "intro" | "idle" | "exit";
 
+
+
 export function GhostAuthScene({
   title,
   subtitle,

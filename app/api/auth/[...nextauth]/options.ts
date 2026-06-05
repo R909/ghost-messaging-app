@@ -57,7 +57,13 @@ pages: {
 },
 
 callbacks: {
-  async jwt({ token, user }) {
+  async jwt({ token, user, trigger, session: updatePayload }) {
+    // Fired when updateSession() is called from the client
+    if (trigger === "update" && updatePayload) {
+      const payload = updatePayload as Record<string, unknown>;
+      if (typeof payload.username === "string")              token.username             = payload.username;
+      if (typeof payload.isAcceptingMessages === "boolean")  token.isAcceptingMessages  = payload.isAcceptingMessages;
+    }
     if (user) {
       token._id = user._id?.toString();
       token.email = user.email;

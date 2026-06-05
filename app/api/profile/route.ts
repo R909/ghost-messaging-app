@@ -39,7 +39,7 @@ export const GET = async () => {
             stats: { conversations, messagesSent },
         });
     } catch (error: unknown) {
-        console.error("[GET PROFILE]:", error);
+
         return NextResponse.json({ success: false, message: "Internal server error" }, { status: 500 });
     }
 };
@@ -69,7 +69,6 @@ export const PATCH = async (req: NextRequest) => {
             message: `Messages ${isAcceptingMessages ? "enabled" : "disabled"} successfully`,
         });
     } catch (error: unknown) {
-        console.error("[PATCH PROFILE]:", error);
         return NextResponse.json({ success: false, message: "Internal server error" }, { status: 500 });
     }
 };

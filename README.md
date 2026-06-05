@@ -49,3 +49,8 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 9. Making the sendEmailVerification Template using @react-email/componets
 10. api routes 
 11. signIn and signup using Next Auth
+12. complete signIn and signup process
+13. complete verification code process (code goes on email and user has to veriifcation on it)
+14. logout functionality
+15. profile page (where use can see total converstions, total sent messages, and days of login, user can disable the accepting messages , and copy it link so that i can share it to another users);
+16. settings page from where user can modify their username,password and other settings. also user can delete his/her own account.

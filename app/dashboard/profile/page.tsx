@@ -27,7 +27,7 @@ function daysSince(iso: string) {
 }
 
 export default function ProfilePage() {
-  const { data: session } = useSession();
+  const { data: session, update: updateSession } = useSession();
 
   const [profile, setProfile] = useState<Profile | null>(null);
   const [stats, setStats] = useState<Stats | null>(null);
@@ -55,14 +55,18 @@ export default function ProfilePage() {
     if (!profile || toggling) return;
     setToggling(true);
     const next = !profile.isAcceptingMessages;
-    setProfile((p) => p ? { ...p, isAcceptingMessages: next } : p); // optimistic
+    setProfile((p) => p ? { ...p, isAcceptingMessages: next } : p);
     try {
       const res = await fetch("/api/profile", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ isAcceptingMessages: next }),
       });
-      if (!res.ok) setProfile((p) => p ? { ...p, isAcceptingMessages: !next } : p); // rollback
+      if (res.ok) {
+        await updateSession({ isAcceptingMessages: next });
+      } else {
+        setProfile((p) => p ? { ...p, isAcceptingMessages: !next } : p);
+      }
     } catch {
       setProfile((p) => p ? { ...p, isAcceptingMessages: !next } : p);
     } finally {
@@ -97,7 +101,6 @@ export default function ProfilePage() {
         style={{ perspective: "1500px" }}
         className="relative flex h-full flex-1 items-start justify-center overflow-y-auto p-4 sm:p-6"
       >
-        {/* Ambient glows */}
         <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(168,85,247,0.14),transparent_24%),radial-gradient(circle_at_82%_24%,rgba(124,58,237,0.1),transparent_22%)]" />
           <div className="absolute left-[-5rem] top-[8%] h-60 w-60 rounded-full bg-[radial-gradient(circle,rgba(192,132,252,0.22),transparent_68%)] blur-3xl animate-float-slow" />
@@ -113,7 +116,6 @@ export default function ProfilePage() {
           className="relative z-10 my-4 w-full max-w-4xl rounded-[2.2rem] border border-white/12 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.025))] p-6 sm:p-8 shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_30px_90px_rgba(0,0,0,0.4)] backdrop-blur-2xl"
         >
 
-          {/* ── Identity header ── */}
           <div style={{ transform: "translateZ(35px)" }} className="flex flex-col gap-5 border-b border-white/10 pb-7 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex items-center gap-5">
               <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-white/5 ring-1 ring-white/15 shadow-[0_10px_30px_rgba(168,85,247,0.15)]">
@@ -151,7 +153,6 @@ export default function ProfilePage() {
               </div>
             </div>
 
-            {/* Member since badge */}
             {!isLoading && profile && (
               <div className="shrink-0 rounded-2xl border border-white/8 bg-white/[0.03] px-5 py-3 text-center">
                 <p className="text-[10px] uppercase tracking-widest text-white/35 font-medium">Member since</p>
@@ -161,7 +162,6 @@ export default function ProfilePage() {
             )}
           </div>
 
-          {/* ── Stats ── */}
           <div className="mt-7 grid gap-4 sm:grid-cols-3" style={{ transformStyle: "preserve-3d" }}>
             <StatCard
               label="Conversations"
@@ -183,10 +183,8 @@ export default function ProfilePage() {
             />
           </div>
 
-          {/* ── Controls ── */}
           <div className="mt-6 grid gap-4 sm:grid-cols-2" style={{ transformStyle: "preserve-3d" }}>
 
-            {/* Accept messages toggle */}
             <div style={{ transform: "translateZ(20px)" }} className="rounded-[1.6rem] border border-white/8 bg-white/[0.01] p-5 transition-all duration-300 hover:border-violet-400/20">
               <div className="flex items-start justify-between gap-3">
                 <div>
@@ -221,7 +219,6 @@ export default function ProfilePage() {
               </div>
             </div>
 
-            {/* Ghost link */}
             <div style={{ transform: "translateZ(20px)" }} className="rounded-[1.6rem] border border-white/8 bg-white/[0.01] p-5 transition-all duration-300 hover:border-violet-400/20">
               <p className="text-sm font-medium text-white/85">Your Ghost Link</p>
               <p className="mt-1 text-xs text-white/40 leading-relaxed">
@@ -252,7 +249,6 @@ export default function ProfilePage() {
 
           </div>
 
-          {/* ── Security info ── */}
           <div style={{ transform: "translateZ(15px)" }} className="mt-6 rounded-[1.6rem] border border-emerald-400/10 bg-emerald-400/[0.03] px-5 py-4">
             <div className="flex items-center gap-3">
               <span className="text-lg">🔒</span>
