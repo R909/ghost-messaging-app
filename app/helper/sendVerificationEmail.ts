@@ -7,11 +7,11 @@ export const sendVerificationEmail = async (
     email: string,
     verificationCode: string
 ): Promise<ApiResponse> => {
-    console.log(" process.env.RESEND_FROM_EMAIL", process.env.RESEND_FROM_EMAIL);
+    console.log(" process.env.RESEND_FROM_EMAIL",);
     
     try {
         await resend.emails.send({
-            from: (process.env.RESEND_FROM_EMAIL!).toString(),
+            from: process.env.RESEND_FROM_EMAIL ?? "Acme <onboarding@resend.dev>",
             to: email,
             subject: "Verify your email",
             react: EmailTemplate({ username, verificationCode }),
