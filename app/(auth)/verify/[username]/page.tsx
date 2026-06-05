@@ -75,7 +75,6 @@ export default function VerifyPage() {
       title="Verify Identity"
       subtitle="Enter the 6-digit code sent to your email"
       backHref="/sign-up"
-      backLabel="Back to registration"
       ghostSrc="/ghost-1.png"
       slideDirection="left"
     >

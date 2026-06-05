@@ -183,7 +183,7 @@ export default function ProfilePage() {
             />
           </div>
 
-          <div className="mt-6 grid gap-4 sm:grid-cols-2" style={{ transformStyle: "preserve-3d" }}>
+          <div className="mt-6" style={{ transformStyle: "preserve-3d" }}>
 
             <div style={{ transform: "translateZ(20px)" }} className="rounded-[1.6rem] border border-white/8 bg-white/[0.01] p-5 transition-all duration-300 hover:border-violet-400/20">
               <div className="flex items-start justify-between gap-3">
@@ -216,34 +216,6 @@ export default function ProfilePage() {
               </div>
               <div className={`mt-3 text-xs font-medium ${profile?.isAcceptingMessages ? "text-emerald-400/80" : "text-white/30"}`}>
                 {isLoading ? "" : profile?.isAcceptingMessages ? "● Receiving messages" : "○ Not accepting messages"}
-              </div>
-            </div>
-
-            <div style={{ transform: "translateZ(20px)" }} className="rounded-[1.6rem] border border-white/8 bg-white/[0.01] p-5 transition-all duration-300 hover:border-violet-400/20">
-              <p className="text-sm font-medium text-white/85">Your Ghost Link</p>
-              <p className="mt-1 text-xs text-white/40 leading-relaxed">
-                Share this link so anyone can send you an anonymous message.
-              </p>
-              <div className="mt-4 flex items-center gap-2">
-                <div className="flex-1 truncate rounded-xl border border-white/8 bg-black/30 px-3 py-2 text-xs text-white/50 font-mono">
-                  {isLoading ? (
-                    <div className="h-3 w-full animate-pulse rounded bg-white/8" />
-                  ) : (
-                    <span className="truncate">/u/{profile?.username}</span>
-                  )}
-                </div>
-                <button
-                  onClick={handleCopyLink}
-                  disabled={isLoading}
-                  className={[
-                    "shrink-0 rounded-xl border px-3 py-2 text-xs font-medium transition-all duration-200 active:scale-95",
-                    copied
-                      ? "border-emerald-400/30 bg-emerald-400/10 text-emerald-300"
-                      : "border-violet-400/30 bg-violet-500/10 text-violet-300 hover:bg-violet-500/20",
-                  ].join(" ")}
-                >
-                  {copied ? "Copied!" : "Copy"}
-                </button>
               </div>
             </div>
 

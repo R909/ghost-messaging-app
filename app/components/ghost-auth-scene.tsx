@@ -22,7 +22,7 @@ export function GhostAuthScene({
   title: string;
   subtitle: string;
   backHref: string;
-  backLabel: string;
+  backLabel?: string;
   ghostSrc: string;
   slideDirection: SlideDirection;
   children: ReactNode;

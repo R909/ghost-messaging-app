@@ -80,7 +80,7 @@ export function HomePage({
               <UserProfile />
             </div>
 
-            <div className="mt-auto hidden rounded-2xl border border-white/5 bg-gradient-to-b from-white/[0.03] to-transparent p-4 lg:block transition-all duration-500 hover:border-white/10 hover:bg-white/[0.04]">
+            <div className="mt-6 hidden rounded-2xl border border-white/5 bg-gradient-to-b from-white/[0.03] to-transparent p-4 lg:block transition-all duration-500 hover:border-white/10 hover:bg-white/[0.04]">
               <UserProfile />
             </div>
           </aside>
@@ -157,9 +157,21 @@ function BackgroundGlow() {
   );
 }
 
-export function SectionHeaderButton({ children }: { children: ReactNode }) {
+export function SectionHeaderButton({
+  children,
+  onClick,
+  "aria-label": ariaLabel,
+}: {
+  children: ReactNode;
+  onClick?: () => void;
+  "aria-label"?: string;
+}) {
   return (
-    <button className="grid h-11 w-11 place-items-center rounded-2xl border border-white/[0.06] bg-white/[0.03] text-white/60 shadow-[0_4px_12px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.05)] backdrop-blur-md transition-all duration-300 cubic-bezier(0.16,1,0.3,1) hover:scale-105 hover:border-white/12 hover:bg-white/[0.08] hover:text-white/90 active:scale-95">
+    <button
+      onClick={onClick}
+      aria-label={ariaLabel}
+      className="grid h-11 w-11 place-items-center rounded-2xl border border-white/[0.06] bg-white/[0.03] text-white/60 shadow-[0_4px_12px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.05)] backdrop-blur-md transition-all duration-300 cubic-bezier(0.16,1,0.3,1) hover:scale-105 hover:border-white/12 hover:bg-white/[0.08] hover:text-white/90 active:scale-95"
+    >
       {children}
     </button>
   );
